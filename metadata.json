@@ -1,0 +1,8 @@
+{
+  "name": "Capstone Totem Dashboard",
+  "description": "A vertical totem-oriented dashboard for displaying student capstone projects with an interactive gallery, detailed project views, and an AI-powered project assistant.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
