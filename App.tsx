@@ -5,7 +5,7 @@ import { COLORS, MOCK_PROJECTS, PARTNERS } from './constants';
 import AttractMode from './components/AttractMode';
 import ProjectCard from './components/ProjectCard';
 import ProjectDetail from './components/ProjectDetail';
-import { askProjectAssistant } from './services/gemini';
+//import { askProjectAssistant } from './services/gemini';
 
 const IDLE_TIMEOUT = 60000;
 
@@ -272,46 +272,6 @@ const App: React.FC = () => {
         </div>
       )}
 
-      {/* AI Console Modal */}
-      {showAiConsole && (
-        <div className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm flex items-end p-6 animate-in slide-in-from-bottom duration-300">
-           <div className="w-full bg-white rounded-[40px] p-10 shadow-3xl">
-              <div className="flex justify-between items-center mb-8 text-left">
-                 <div>
-                   <h3 className="text-2xl font-black">Intelligent Search</h3>
-                   <p className="text-xs text-gray-400 font-bold uppercase tracking-tighter">Ask about students or Falconi awards</p>
-                 </div>
-                 <button onClick={() => {setShowAiConsole(false); setAiResponse(null);}} className="text-gray-300 hover:text-black">
-                   <i className="fas fa-times text-2xl"></i>
-                 </button>
-              </div>
-
-              <div className="relative mb-6">
-                <input 
-                  type="text"
-                  placeholder="e.g. 'Show me Excellence projects'"
-                  className="w-full bg-gray-100 p-6 rounded-3xl text-lg font-medium focus:outline-none"
-                  value={aiQuery}
-                  onChange={(e) => setAiQuery(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleAskAi()}
-                />
-                <button 
-                  onClick={handleAskAi}
-                  disabled={isAiLoading || !aiQuery}
-                  className="absolute right-3 top-3 bottom-3 px-8 bg-black text-white rounded-2xl font-black text-xs uppercase"
-                >
-                  {isAiLoading ? <i className="fas fa-spinner animate-spin"></i> : 'Ask'}
-                </button>
-              </div>
-
-              {aiResponse && (
-                <div className="p-6 bg-red-50 rounded-3xl animate-in fade-in slide-in-from-top duration-500 max-h-[40vh] overflow-y-auto no-scrollbar text-left">
-                   <p className="text-gray-800 text-lg leading-relaxed italic">"{aiResponse}"</p>
-                </div>
-              )}
-           </div>
-        </div>
-      )}
 
       {/* Awards Wall Page */}
       {viewState === 'AWARDS_WALL' && (

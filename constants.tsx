@@ -171,7 +171,7 @@ export const MOCK_PROJECTS: Project[] = [
     longDescription: 'Feeding the future with low-water, high-yield vertical systems.',
     tags: ['AgroTech', 'Design', 'Sustainability'],
     partner: 'Natura'
-  }
+  },
     {
     id: '1910',
     title: 'Sport Club Corinthians Paulista',

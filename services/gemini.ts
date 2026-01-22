@@ -1,38 +1,23 @@
-
-import { GoogleGenAI } from "@google/genai";
+import * as GoogleGenAI from "@google/genai";
 import { Project, AwardType } from "../types";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Usando a chave que o seu vite.config.ts configurou
+const genAI = new GoogleGenAI.GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
 export async function askProjectAssistant(query: string, projects: Project[]) {
   const context = projects.map(p => 
-    `Project: ${p.title}
-     Category: ${p.category}
-     Semester: ${p.year}.${p.semester}
-     Advisor: ${p.advisor}
-     Award: ${p.awardType !== AwardType.NONE ? p.awardType : 'No special award'}
-     Summary: ${p.longDescription}`
+    `Project: ${p.title} | Category: ${p.category} | Summary: ${p.longDescription}`
   ).join('\n\n');
 
   try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: `You are a helpful Capstone Project Assistant at a university. Use the following context about student projects to answer questions concisely for totem visitors. Use the semester notation YEAR.SEM (e.g. 2024.1) when referring to dates.
-      
-      CONTEXT:
-      ${context}
-      
-      QUESTION:
-      ${query}`,
-      config: {
-        temperature: 0.7,
-        maxOutputTokens: 250,
-      }
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const prompt = `Você é um assistente de projetos. Use o contexto para responder em Português.\n\nCONTEXTO:\n${context}\n\nPERGUNTA: ${query}`;
 
-    return response.text;
+    const result = await model.generateContent(prompt);
+    const response = await result.response;
+    return response.text();
   } catch (error) {
-    console.error("Gemini API Error:", error);
-    return "I'm sorry, I'm having trouble connecting to my brain right now. Please try again or explore the projects manually.";
+    console.error("Erro Gemini:", error);
+    return "Erro ao conectar com a IA.";
   }
 }
